@@ -6,21 +6,6 @@
     const panelElement = document.createElement("div");
     const arenaElement = document.createElement("div");
     const moleElement = document.createElement("div");
-
-    arenaElement.addEventListener(
-        "click",
-        function (e) {
-            const element = e.target;
-            e.stopPropagation();
-
-            if (moleElement === element) {
-                score += 1;
-                panelElement.innerHTML = score;
-                showMole();
-            }
-        },
-        false
-    );
     //panelElement.innerHTML = score;
 
     gameElement.classList.add("game");
@@ -45,11 +30,29 @@
 
         score = 0;
         showMole();
-    }, false)
+    }, false);
 
+    const scoreElement = document.createElement("div");
+    scoreElement.innerHTML = score;
 
     panelElement.appendChild(resetButtonElement);
+    panelElement.appendChild(scoreElement);
     arenaElement.appendChild(moleElement);
+
+    arenaElement.addEventListener(
+        "click",
+        function (e) {
+            const element = e.target;
+            e.stopPropagation();
+
+            if (moleElement === element) {
+                score += 1;
+                scoreElement.innerHTML = score;
+                showMole();
+            }
+        },
+        false
+    );
 
     showMole();
 
@@ -58,8 +61,8 @@
     function changePosition() {
         Object.assign(
             moleElement.style, {
-                top: `${Math.floor(Math.random() * 10) * 50}px`,
-                left: `${Math.floor(Math.random() * 10) * 50}px`
+                top: `${Math.floor(Math.random() * 9) * 50}px`,
+                left: `${Math.floor(Math.random() * 9) * 50}px`
             }
         );
     }
@@ -69,4 +72,36 @@
         changePosition()
         timeUID = setInterval(changePosition, 1 * 30 * 1000);
     }
+}());
+
+(function () {
+    const html = `<div class="game" ref="game">
+        <div class="panel" ref="panel">
+            <a role="button" href="#reset" ref="resetButton">reset</a>
+            <div ref="score">0</div>
+        </div>
+        <div class="arena"  ref="arena">
+            <div class="mole" ref="mole"></div>
+        </div>
+    </div>`;
+
+    const tmp = document.createElement("template");
+
+    tmp.innerHTML = html;
+
+    const documentFragment = tmp.content;
+
+    const colection = documentFragment.querySelectorAll("[ref]");
+
+    const template = Array.prototype.reduce.call(
+        colection,
+        function (obj, item) {
+            const name = item.getAttribute("ref");
+            obj[name] = item;
+            return obj;
+        }, {});
+
+    template.arena.addEventListener("click", function () {
+
+    }, false);
 }());
