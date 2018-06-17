@@ -1,12 +1,11 @@
 (function () {
     let score = 0;
+    let timeUID = null;
+
     const gameElement = document.createElement("div");
     const panelElement = document.createElement("div");
     const arenaElement = document.createElement("div");
-
     const moleElement = document.createElement("div");
-
-    let timeUID = null;
 
     arenaElement.addEventListener(
         "click",
@@ -22,9 +21,7 @@
         },
         false
     );
-
-    showMole();
-    panelElement.innerHTML = score;
+    //panelElement.innerHTML = score;
 
     gameElement.classList.add("game");
     panelElement.classList.add("panel");
@@ -37,15 +34,34 @@
         arenaElement
     );
 
-    const list = Math.floor(Math.random() * 10);
+    const resetButtonElement = document.createElement("a");
+    resetButtonElement.innerHTML = "reset";
+    resetButtonElement.setAttribute("role", "button");
+    resetButtonElement.setAttribute("href", "http://codeme.pl");
 
+    resetButtonElement.addEventListener("click", function (e) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        score = 0;
+        showMole();
+    }, false)
+
+
+    panelElement.appendChild(resetButtonElement);
     arenaElement.appendChild(moleElement);
+
+    showMole();
 
     document.body.appendChild(gameElement);
 
     function changePosition() {
-        moleElement.style.top = `${Math.floor(Math.random() * 10) * 50}px`;
-        moleElement.style.left = (Math.floor(Math.random() * 10) * 50 + "px");
+        Object.assign(
+            moleElement.style, {
+                top: `${Math.floor(Math.random() * 10) * 50}px`,
+                left: `${Math.floor(Math.random() * 10) * 50}px`
+            }
+        );
     }
 
     function showMole() {
