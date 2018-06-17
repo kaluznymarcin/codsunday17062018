@@ -32,5 +32,16 @@
     </ul>
 </form>`;
 
-    console.log(moduleContainer);
+    const form = moduleContainer.querySelector("form");
+
+    form.addEventListener("change", function (e) {
+        const input = e.target;
+        const panel = document.getElementById(input.value);
+
+        e.stopPropagation();
+
+        panel.hidden = false;
+    }, false);
+
+    document.body.appendChild(moduleContainer);
 }());
