@@ -1,3 +1,5 @@
+import game from "./game.js";
+
 (function () {
     const moduleContainer =
         document.createElement("div");
